@@ -1,12 +1,8 @@
 import 'package:unittest/unittest.dart';
-import 'package:logging/logging.dart';
 import 'package:pubsub/Pubsub.dart';
 import 'package:pubsub/message.dart';
 
 void main() {
-	hierarchicalLoggingEnabled = true;
-	Pubsub.logger.level = Level.ALL;
-
 	test('Wildcard Channel Test', () {
 		Pubsub.publish('whatever', 'test passed');
 		cb(PubsubMessage msg){

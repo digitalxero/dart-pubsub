@@ -1,14 +1,11 @@
 library pubsub;
 
-import 'package:logging/logging.dart';
-
 import 'src/stream.dart';
 import 'message.dart';
 
 class Pubsub {
 	static final Pubsub _singleton = new Pubsub._internal();
 	static final Map<String, PubsubStream> _channels = new Map<String, PubsubStream>();
-	static final Logger logger = new Logger('Pubsub');
 
 	factory Pubsub() {
 		return _singleton;
@@ -82,10 +79,6 @@ class Pubsub {
 		}
 
 		return channels;
-	}
-
-	static _debug(PubsubMessage msg) {
-		logger.finest(msg.channel);
 	}
 
 	Pubsub._internal();
