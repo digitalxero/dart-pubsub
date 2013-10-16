@@ -38,11 +38,9 @@ class Pubsub {
 		for(String c in channels) {
 			if(!_channels.containsKey(c)) continue;
 			_channels[c].remove(cb);
-			_channels[c].isEmpty().then((value){
-				if(value) {
+			if(!_channels[c].hasListeners) {
 				_channels.remove(c);
-				}
-			});
+			}
 		}
 	}
 

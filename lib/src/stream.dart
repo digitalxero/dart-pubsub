@@ -40,9 +40,7 @@ class PubsubStream {
 		_lastMessage = message;
 	}
 
-	Future isEmpty() {
-		return _controller.stream.isEmpty;
-	}
+	get hasListeners => _controller.hasListener;
 
 	void _selfListener(PubsubMessage msg) {
 		//Do nothing, just here to make sure the steam is always empty
