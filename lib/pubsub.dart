@@ -66,7 +66,10 @@ class Pubsub {
 				topic_array.removeLast();
 				channels.add(topic);
 			}
-			channels.add('*');
+
+			if(!channels.contains('*')) {
+				channels.add('*');
+			}
 		}
 
 		return channels;
