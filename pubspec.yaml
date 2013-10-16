@@ -1,7 +1,7 @@
 name: pubsub
-version: 1.0.0
+version: 1.0.1
 author: Dj Gilcrease <digitalxero@gmail.com>
-description: Async Pubsub system, modeled after jQuery.Pubsub
+description: Async hierarchical pubsub library, modeled after https://github.com/KanbanSolutions/jquery-pubsub
 homepage: https://github.com/Digitalxero/dart-pubsub
 documentation: https://github.com/Digitalxero/dart-pubsub
 dependencies:
