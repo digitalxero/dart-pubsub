@@ -41,6 +41,7 @@ void main() {
 
 	test('Complex Hierarchical Channel Test', () {
 		Pubsub.subscribe('Complex', expectAsync1((PubsubMessage msg){
+			expect(msg.channel, equals('Complex.hierarchical'));
 			expect(msg.args[0], equals('test passed'));
 		}));
 		Pubsub.publish('Complex.hierarchical', 'test passed');
