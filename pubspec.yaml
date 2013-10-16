@@ -1,0 +1,8 @@
+name: pubsub
+version: 0.1.0
+author: Dj Gilcrease <digitalxero@gmail.com>
+description: Async Pubsub system, modeled after jQuery.Pubsub
+dependencies:
+  logging: any
+dev_dependencies:
+  unittest: any

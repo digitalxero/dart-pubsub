@@ -1,4 +1,4 @@
 dart-pubsub
 ===========
 
-Async pubsub libaru
+Async hierarchical pubsub library
