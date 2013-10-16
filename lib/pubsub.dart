@@ -22,16 +22,24 @@ class Pubsub {
 		}
 	}
 
-	static final publish = new VarargsFunction((arguments) {
+	static final publish = new VarargsFunction((arguments, kwargs) {
 		List args = new List.from(arguments);
 		String channel = args.removeAt(0);
-		List<String> channels = _get_all_channels(channel);
-		for(String c in channels) {
-			_check_or_create(c);
-			PubsubMessage message = new PubsubMessage(c, args);
-			_channels[c].fire(message);
+		List<String> parents = _get_parent_channels(channel);
+		List<String> children = _get_child_channels(channel);
+		for(String p in parents) {
+			final PubsubMessage message = new PubsubMessage(p, args, kwargs);
+			_publish(p, message);
+			for(String c in children) {
+				_publish(c, message);
+			}
 		}
 	});
+
+	static _publish(String channel, PubsubMessage msg) {
+		_check_or_create(channel);
+		_channels[channel].fire(msg);
+	}
 
 	static unsubscribe(String channel, Function cb) {
 		List<String> channels = _get_parent_channels(channel);
@@ -55,11 +63,12 @@ class Pubsub {
 		return channel.split(' ');
 	}
 
-	static List<String> _get_all_channels(String channel) {
+	static List<String> _get_child_channels(String channel) {
 		List<String> topics = channel.split(' ');
 		List<String> channels = new List<String>();
 		for(int i=0; i<topics.length; i++) {
 			List<String> topic_array = topics[i].split('.');
+			topic_array.removeLast();
 
 			while(topic_array.length > 0) {
 				String topic = topic_array.join('.');
@@ -82,13 +91,14 @@ class Pubsub {
 	Pubsub._internal();
 }
 
-typedef dynamic OnCall(List);
+typedef dynamic OnCall(List, Map);
 
 class VarargsFunction {
   OnCall _onCall;
   VarargsFunction(this._onCall);
   noSuchMethod(Invocation invocation) {
-    final arguments = invocation.positionalArguments;
-    return _onCall(arguments);
+    final args = invocation.positionalArguments;
+	final kwargs = invocation.namedArguments;
+    return _onCall(args, kwargs);
   }
 }
