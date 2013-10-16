@@ -1,0 +1,105 @@
+        <!DOCTYPE html>
+        <html>
+        <head>
+                <meta charset="utf-8">
+        <title>VarargsFunction class / pubsub Library / Dart Documentation</title>
+        <link rel="stylesheet" type="text/css"
+            href="../styles.css">
+        <link href="//fonts.googleapis.com/css?family=Open+Sans:400,600,700,800" rel="stylesheet" type="text/css">
+        <link rel="shortcut icon" href="../favicon.ico">
+        
+        </head>
+        <body data-library="pubsub" data-type="VarargsFunction">
+        <div class="page">
+        <div class="header">
+          <a href="../index.html"><div class="logo"></div></a>
+          <a href="../index.html">Dart Documentation</a>
+         &rsaquo; <a href="../pubsub.html">pubsub</a> &rsaquo; <a href="../pubsub/VarargsFunction.html">VarargsFunction</a>        <div id="search-box">
+          <input type="search" name="q" id="q" autocomplete="off"
+              class="search-input" placeholder="Search API">
+        </div>
+        
+      </div>
+      <div class="drop-down" id="drop-down"></div>
+      
+        <div class="nav">
+        
+<h2><div class="icon-library"></div><a href="../logging.html">logging</a></h2><h2><div class="icon-library"></div><a href="../meta.html">meta</a></h2><h2><div class="icon-library"></div><a href="../pubsub.html">pubsub</a></h2><ul class="icon">
+<li><a href="../pubsub/OnCall.html"><div class="icon-interface"></div>OnCall</a></li>
+<li><a href="../pubsub/Pubsub.html"><div class="icon-class"></div>Pubsub</a></li>
+<li><div class="icon-class"></div><strong>VarargsFunction</strong></li>
+</ul>
+<h2><div class="icon-library"></div><a href="../pubsub.message.html">pubsub.message</a></h2><h2><div class="icon-library"></div><a href="../pubsub.stream.html">pubsub.stream</a></h2></div>
+<div class="content">
+        <h2><strong>VarargsFunction</strong>
+          class
+        </h2>
+        
+<button id="show-inherited" class="show-inherited">Hide inherited</button>
+<div class="doc">
+<pre class="source">
+class VarargsFunction {
+ OnCall _onCall;
+ VarargsFunction(this._onCall);
+ noSuchMethod(Invocation invocation) {
+   final args = invocation.positionalArguments;
+	final kwargs = invocation.namedArguments;
+   return _onCall(args, kwargs);
+ }
+}
+</pre>
+</div>
+<div>
+<h3>Constructors</h3>
+<div class="method"><h4 id="">
+<button class="show-code">Code</button>
+new <strong>VarargsFunction</strong>(<a href="../pubsub/OnCall.html">OnCall</a> _onCall) <a class="anchor-link" href="#"
+              title="Permalink to VarargsFunction.VarargsFunction">#</a></h4>
+<div class="doc">
+<div class="inherited">
+<p>Creates a new <a class="crossref" href="../dart_core/Object.html">Object</a> instance.</p>
+<p><a class="crossref" href="../dart_core/Object.html">Object</a> instances have no meaningful state, and are only useful
+through their identity. An <a class="crossref" href="../dart_core/Object.html">Object</a> instance is equal to itself
+only.</p>
+<div class="docs-inherited-from">docs inherited from <a href="http://api.dartlang.org/dart_core/Object.html">Object</a> </div></div>
+<pre class="source">
+VarargsFunction(this._onCall);
+</pre>
+</div>
+</div>
+</div>
+<div>
+<h3>Methods</h3>
+<div class="method"><h4 id="noSuchMethod">
+<button class="show-code">Code</button>
+dynamic <strong>noSuchMethod</strong>(<a href="http://api.dartlang.org/dart_core/Invocation.html">Invocation</a> invocation) <a class="anchor-link" href="#noSuchMethod"
+              title="Permalink to VarargsFunction.noSuchMethod">#</a></h4>
+<div class="doc">
+<div class="inherited">
+<p><a class="crossref" href="../pubsub/VarargsFunction.html#noSuchMethod">noSuchMethod</a> is invoked when users invoke a non-existant method
+on an object. The name of the method and the arguments of the
+invocation are passed to <a class="crossref" href="../pubsub/VarargsFunction.html#noSuchMethod">noSuchMethod</a> in an <a class="crossref" href="../dart_core/Invocation.html">Invocation</a>.
+If <a class="crossref" href="../pubsub/VarargsFunction.html#noSuchMethod">noSuchMethod</a> returns a value, that value becomes the result of
+the original invocation.</p>
+<p>The default behavior of <a class="crossref" href="../pubsub/VarargsFunction.html#noSuchMethod">noSuchMethod</a> is to throw a
+<code>noSuchMethodError</code>.</p>
+<div class="docs-inherited-from">docs inherited from <a href="http://api.dartlang.org/dart_core/Object.html">Object</a> </div></div>
+<pre class="source">
+noSuchMethod(Invocation invocation) {
+ final args = invocation.positionalArguments;
+	final kwargs = invocation.namedArguments;
+ return _onCall(args, kwargs);
+}
+</pre>
+</div>
+</div>
+</div>
+        </div>
+        <div class="clear"></div>
+        </div>
+        <div class="footer">
+          <div>This page was generated at 2013-10-16 05:28:39.852</div>
+        </div>
+        <script async src="../client-static.js"></script>
+        </body></html>
+        

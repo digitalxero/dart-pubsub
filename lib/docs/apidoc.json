@@ -1,0 +1,1 @@
+{"name":"dart:","description":"Dart System Libraries","libraries":[{"name":"package:logging/logging.dart","refId":"logging"},{"name":"package:meta/meta.dart","refId":"meta"},{"refId":"pubsub"},{"refId":"pubsub.message"},{"refId":"pubsub.stream"}],"revision":"0","location":"0","dependencies":[]}

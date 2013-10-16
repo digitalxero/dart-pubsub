@@ -1,0 +1,234 @@
+        <!DOCTYPE html>
+        <html>
+        <head>
+                <meta charset="utf-8">
+        <title>Pubsub class / pubsub Library / Dart Documentation</title>
+        <link rel="stylesheet" type="text/css"
+            href="../styles.css">
+        <link href="//fonts.googleapis.com/css?family=Open+Sans:400,600,700,800" rel="stylesheet" type="text/css">
+        <link rel="shortcut icon" href="../favicon.ico">
+        
+        </head>
+        <body data-library="pubsub" data-type="Pubsub">
+        <div class="page">
+        <div class="header">
+          <a href="../index.html"><div class="logo"></div></a>
+          <a href="../index.html">Dart Documentation</a>
+         &rsaquo; <a href="../pubsub.html">pubsub</a> &rsaquo; <a href="../pubsub/Pubsub.html">Pubsub</a>        <div id="search-box">
+          <input type="search" name="q" id="q" autocomplete="off"
+              class="search-input" placeholder="Search API">
+        </div>
+        
+      </div>
+      <div class="drop-down" id="drop-down"></div>
+      
+        <div class="nav">
+        
+<h2><div class="icon-library"></div><a href="../logging.html">logging</a></h2><h2><div class="icon-library"></div><a href="../meta.html">meta</a></h2><h2><div class="icon-library"></div><a href="../pubsub.html">pubsub</a></h2><ul class="icon">
+<li><a href="../pubsub/OnCall.html"><div class="icon-interface"></div>OnCall</a></li>
+<li><div class="icon-class"></div><strong>Pubsub</strong></li>
+<li><a href="../pubsub/VarargsFunction.html"><div class="icon-class"></div>VarargsFunction</a></li>
+</ul>
+<h2><div class="icon-library"></div><a href="../pubsub.message.html">pubsub.message</a></h2><h2><div class="icon-library"></div><a href="../pubsub.stream.html">pubsub.stream</a></h2></div>
+<div class="content">
+        <h2><strong>Pubsub</strong>
+          class
+        </h2>
+        
+<button id="show-inherited" class="show-inherited">Hide inherited</button>
+<div class="doc">
+<pre class="source">
+class Pubsub {
+	static final Pubsub _singleton = new Pubsub._internal();
+	static final Map&lt;String, PubsubStream&gt; _channels = new Map&lt;String, PubsubStream&gt;();
+	static final Logger logger = new Logger('Pubsub');
+
+	factory Pubsub() {
+		return _singleton;
+	}
+
+	static subscribe(String channel, Function cb) {
+		List&lt;String&gt; channels = _get_parent_channels(channel);
+		for(String c in channels) {
+			_check_or_create(c);
+			_channels[c].add(cb);
+		}
+	}
+
+	static final publish = new VarargsFunction((arguments, kwargs) {
+		List args = new List.from(arguments);
+		String channel = args.removeAt(0);
+		List&lt;String&gt; parents = _get_parent_channels(channel);
+		List&lt;String&gt; children = _get_child_channels(channel);
+		for(String p in parents) {
+			final PubsubMessage message = new PubsubMessage(p, args, kwargs);
+			_publish(p, message);
+			for(String c in children) {
+				_publish(c, message);
+			}
+		}
+	});
+
+	static _publish(String channel, PubsubMessage msg) {
+		_check_or_create(channel);
+		_channels[channel].fire(msg);
+	}
+
+	static unsubscribe(String channel, Function cb) {
+		List&lt;String&gt; channels = _get_parent_channels(channel);
+		for(String c in channels) {
+			if(!_channels.containsKey(c)) continue;
+			_channels[c].remove(cb);
+			if(!_channels[c].hasListeners) {
+				_channels.remove(c);
+			}
+		}
+	}
+
+	static _check_or_create(String channel) {
+		if(!_channels.containsKey(channel)) {
+			PubsubStream stream = new PubsubStream();
+			_channels[channel] = stream;
+		}
+	}
+
+	static List&lt;String&gt; _get_parent_channels(String channel) {
+		return channel.split(' ');
+	}
+
+	static List&lt;String&gt; _get_child_channels(String channel) {
+		List&lt;String&gt; topics = channel.split(' ');
+		List&lt;String&gt; channels = new List&lt;String&gt;();
+		for(int i=0; i&lt;topics.length; i++) {
+			List&lt;String&gt; topic_array = topics[i].split('.');
+			topic_array.removeLast();
+
+			while(topic_array.length &gt; 0) {
+				String topic = topic_array.join('.');
+				topic_array.removeLast();
+				channels.add(topic);
+			}
+
+			if(!channels.contains('*')) {
+				channels.add('*');
+			}
+		}
+
+		return channels;
+	}
+
+	static _debug(PubsubMessage msg) {
+		logger.finest(msg.channel);
+	}
+
+	Pubsub._internal();
+}
+</pre>
+</div>
+<div>
+<h3>Static Properties</h3>
+<div class="field"><h4 id="logger">
+<button class="show-code">Code</button>
+final <a href="../logging/Logger.html">Logger</a>         <strong>logger</strong> <a class="anchor-link"
+            href="#logger"
+            title="Permalink to Pubsub.logger">#</a>
+        </h4>
+        <div class="doc">
+<pre class="source">
+static final Logger logger = new Logger('Pubsub')
+</pre>
+</div>
+</div>
+<div class="field"><h4 id="publish">
+<button class="show-code">Code</button>
+final         <strong>publish</strong> <a class="anchor-link"
+            href="#publish"
+            title="Permalink to Pubsub.publish">#</a>
+        </h4>
+        <div class="doc">
+<pre class="source">
+static final publish = new VarargsFunction((arguments, kwargs) {
+		List args = new List.from(arguments);
+		String channel = args.removeAt(0);
+		List&lt;String&gt; parents = _get_parent_channels(channel);
+		List&lt;String&gt; children = _get_child_channels(channel);
+		for(String p in parents) {
+			final PubsubMessage message = new PubsubMessage(p, args, kwargs);
+			_publish(p, message);
+			for(String c in children) {
+				_publish(c, message);
+			}
+		}
+	})
+</pre>
+</div>
+</div>
+</div>
+<div>
+<h3>Static Methods</h3>
+<div class="method"><h4 id="subscribe">
+<button class="show-code">Code</button>
+dynamic <strong>subscribe</strong>(<a href="http://api.dartlang.org/dart_core/String.html">String</a> channel, <a href="http://api.dartlang.org/dart_core/Function.html">Function</a> cb) <a class="anchor-link" href="#subscribe"
+              title="Permalink to Pubsub.subscribe">#</a></h4>
+<div class="doc">
+<pre class="source">
+static subscribe(String channel, Function cb) {
+		List&lt;String&gt; channels = _get_parent_channels(channel);
+		for(String c in channels) {
+			_check_or_create(c);
+			_channels[c].add(cb);
+		}
+	}
+</pre>
+</div>
+</div>
+<div class="method"><h4 id="unsubscribe">
+<button class="show-code">Code</button>
+dynamic <strong>unsubscribe</strong>(<a href="http://api.dartlang.org/dart_core/String.html">String</a> channel, <a href="http://api.dartlang.org/dart_core/Function.html">Function</a> cb) <a class="anchor-link" href="#unsubscribe"
+              title="Permalink to Pubsub.unsubscribe">#</a></h4>
+<div class="doc">
+<pre class="source">
+static unsubscribe(String channel, Function cb) {
+		List&lt;String&gt; channels = _get_parent_channels(channel);
+		for(String c in channels) {
+			if(!_channels.containsKey(c)) continue;
+			_channels[c].remove(cb);
+			if(!_channels[c].hasListeners) {
+				_channels.remove(c);
+			}
+		}
+	}
+</pre>
+</div>
+</div>
+</div>
+<div>
+<h3>Constructors</h3>
+<div class="method"><h4 id="">
+<button class="show-code">Code</button>
+factory <strong>Pubsub</strong>() <a class="anchor-link" href="#"
+              title="Permalink to Pubsub.Pubsub">#</a></h4>
+<div class="doc">
+<div class="inherited">
+<p>Creates a new <a class="crossref" href="../dart_core/Object.html">Object</a> instance.</p>
+<p><a class="crossref" href="../dart_core/Object.html">Object</a> instances have no meaningful state, and are only useful
+through their identity. An <a class="crossref" href="../dart_core/Object.html">Object</a> instance is equal to itself
+only.</p>
+<div class="docs-inherited-from">docs inherited from <a href="http://api.dartlang.org/dart_core/Object.html">Object</a> </div></div>
+<pre class="source">
+factory Pubsub() {
+		return _singleton;
+	}
+</pre>
+</div>
+</div>
+</div>
+        </div>
+        <div class="clear"></div>
+        </div>
+        <div class="footer">
+          <div>This page was generated at 2013-10-16 05:28:39.868</div>
+        </div>
+        <script async src="../client-static.js"></script>
+        </body></html>
+        
