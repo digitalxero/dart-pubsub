@@ -1,9 +1,11 @@
 dart-pubsub
 ===========
 
-Implementation of pubsub that allows for hierarchical categorical publish and subscribe categories are . separated. all subscriptions to base or base.item or base.item.action would get messages published to base.item.action but subscriptions to base.item.action would not get messages published to base.item
+Implementation of pubsub that allows for hierarchical categorical publish and subscribe.
 
-The first parameter sent to listeners is the full topic, so listeners can do their own filtering if they subscribe to a more general topic You can (un)subscribe to multiple topics by separating them by spaces, this does limit it to events with no spaces in their names though You can publish to multiple topics the same way, just remember that the system automatically publishes to the less specific topics
+The full channel is sent as PubsubMessage.channel, so listeners can do their own filtering if they subscribe to a more general channel.
+
+You can (un)subscribe to multiple topics by separating them by spaces, this does limit it to channels with no spaces in their names though. You can publish to multiple topics the same way.
 
     Pubsub.subscribe('app.component.action', (PubsubMessage msg){
 		//msg.channel == 'app.component.action'
@@ -13,6 +15,8 @@ The first parameter sent to listeners is the full topic, so listeners can do the
 	});
 
 	Pubsub.publish('app.component.action', 1, 2, 3, keywords: 'work also', isnt: 'this fun');
+
+Remember that the system automatically publishes to the less specific channels so you should never do `Pubsuub.subscribe('app app.component app.component.change', ...)` as the subscriber would recive 3 copies of each message published to `app.component.change`
 
 You can also subscribe well after something has been publishing to a channel and you will get the last message, this is most usefull for a ready message
 
