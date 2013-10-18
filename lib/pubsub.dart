@@ -19,6 +19,19 @@ class Pubsub {
 		}
 	}
 
+	static subscribe_once(String channel, Function cb) {
+		Function wrapper;
+		wrapper = (PubsubMessage msg) {
+			Pubsub.unsubscribe(channel, wrapper);
+			cb(msg);
+		};
+		List<String> channels = _get_parent_channels(channel);
+		for(String c in channels) {
+			_check_or_create(c);
+			_channels[c].add(wrapper);
+		}
+	}
+
 	static final publish = new VarargsFunction((arguments, kwargs) {
 		List args = new List.from(arguments);
 		String channel = args.removeAt(0);

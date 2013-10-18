@@ -4,13 +4,12 @@ import 'package:pubsub/message.dart';
 
 void main() {
 	test('Wildcard Channel Test', () {
-		Pubsub.publish('whatever', 'test passed');
+		Pubsub.publish('whatever', 'wc test passed');
 		cb(PubsubMessage msg){
-			expect(msg.args[0], equals('test passed'));
+			expect(msg.args[0], equals('wc test passed'));
 		}
 		Function c1 = expectAsync1(cb);
-		Pubsub.subscribe('*', c1);
-		Pubsub.unsubscribe('*', c1);
+		Pubsub.subscribe_once('*', c1);
 	});
 
 	test('Single Channel Test', () {
