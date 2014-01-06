@@ -1,10 +1,12 @@
 name: pubsub
-version: 1.1.7
+version: 1.1.8
 author: Dj Gilcrease <digitalxero@gmail.com>
 description: Async implementation of pubsub that allows for hierarchical categorical publish and subscribe
 homepage: https://github.com/Digitalxero/dart-pubsub
 documentation: https://github.com/Digitalxero/dart-pubsub
+environment:
+  sdk: '>=1.0.0 <2.0.0'
 dependencies:
-  dynamic_object: any
+  dynamic_object: '>=1.0.4 <2.0.0'
 dev_dependencies:
   unittest: any

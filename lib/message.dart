@@ -7,7 +7,7 @@ class PubsubMessage extends DynamicObject {
 	List _arguments;
 
 	PubsubMessage(String channel, List arguments, Map kwargs) {
-    	_objectData = new Map();
+    	Map _objectData = new Map();
 		this._chan = channel;
 		this._arguments = arguments;
 		kwargs.forEach((Symbol key, dynamic value){

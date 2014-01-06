@@ -30,7 +30,7 @@ class PubsubStream {
 		if(_listeners.containsKey(listener)) {
 			_subscriptions.remove(_listeners[listener]);
 			//This is run async so any messages currently queues can finish
-			runAsync(_listeners[listener].cancel);
+			scheduleMicrotask(_listeners[listener].cancel);
 			_listeners.remove(listener);
 		}
 	}
