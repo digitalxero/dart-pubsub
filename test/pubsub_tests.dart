@@ -69,6 +69,17 @@ void main() {
 		Pubsub.publish('kw-args', test: 'passed');
 	});
 
+	test('Keyword arguments Test2', () {
+		Pubsub.subscribe('app.component.action', expectAsync1((PubsubMessage msg){
+			expect(msg.channel, equals('app.component.action'));
+			expect(msg.args, orderedEquals([1, 2, 3]));
+			expect(msg.keywords, equals('work also'));
+			expect(msg.isnt, equals('this fun'));
+		}));
+
+		Pubsub.publish('app.component.action', 1, 2, 3, keywords: 'work also', isnt: 'this fun');
+	});
+
 	test('Keyword and positional arguments Test', () {
 		Pubsub.subscribe('kw-positional-args', expectAsync1((PubsubMessage msg){
 		expect(msg.args[0], equals('test passed'));
